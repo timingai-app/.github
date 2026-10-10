@@ -1,0 +1,198 @@
+{
+  "titleMaxLength": 100,
+  "defaultBranch": "main",
+  "versionBranchPattern": "^\\d+\\.\\d+\\.\\d+$",
+  "releaseRepos": [
+    "timing",
+    "timing-api",
+    "timing-calc"
+  ],
+  "mainAllowedTypesInReleaseRepos": [
+    "release",
+    "hotfix",
+    "sync",
+    "revert"
+  ],
+  "mainOnlyTypes": [
+    "release",
+    "hotfix"
+  ],
+  "skipLabel": "skip-pr-lint",
+  "sections": {
+    "why": "Why",
+    "what": "What changed",
+    "verified": "How verified",
+    "related": "Related",
+    "screenshots": "Screenshots",
+    "deploy": "Deploy notes",
+    "rollback": "Rollback",
+    "releaseCheck": "Release check",
+    "forwardPort": "Forward-port"
+  },
+  "types": {
+    "feat": {
+      "summary": "New user-facing capability",
+      "required": [
+        "why",
+        "what",
+        "verified",
+        "related"
+      ],
+      "noneNeedsReason": [
+        "related"
+      ]
+    },
+    "fix": {
+      "summary": "Corrects a bug",
+      "required": [
+        "why",
+        "what",
+        "verified",
+        "related"
+      ]
+    },
+    "perf": {
+      "summary": "Faster or cheaper, same behavior",
+      "required": [
+        "why",
+        "what",
+        "verified"
+      ]
+    },
+    "refactor": {
+      "summary": "Restructure, same behavior",
+      "required": [
+        "why",
+        "what",
+        "verified"
+      ]
+    },
+    "tune": {
+      "summary": "Prompt / parameter / threshold change; output changes, code paths don't",
+      "required": [
+        "why",
+        "what",
+        "verified"
+      ],
+      "verifiedMustMention": [
+        "Before",
+        "After"
+      ]
+    },
+    "docs": {
+      "summary": "Docs or comments only",
+      "required": [
+        "what"
+      ]
+    },
+    "test": {
+      "summary": "Tests only",
+      "required": [
+        "what"
+      ]
+    },
+    "chore": {
+      "summary": "Deps, config, cleanup",
+      "required": [
+        "what"
+      ]
+    },
+    "ci": {
+      "summary": "CI / build / tooling",
+      "required": [
+        "what"
+      ]
+    },
+    "revert": {
+      "summary": "Reverts an earlier PR",
+      "required": [
+        "why",
+        "related"
+      ]
+    },
+    "release": {
+      "summary": "Version branch → main (ships to prod)",
+      "required": [
+        "what",
+        "verified",
+        "deploy",
+        "rollback",
+        "releaseCheck"
+      ]
+    },
+    "hotfix": {
+      "summary": "Urgent fix straight to main",
+      "required": [
+        "why",
+        "what",
+        "verified",
+        "related",
+        "deploy",
+        "rollback",
+        "forwardPort"
+      ]
+    },
+    "sync": {
+      "summary": "Merge between long-lived branches",
+      "required": [
+        "what"
+      ]
+    }
+  },
+  "fileRules": [
+    {
+      "id": "migration",
+      "files": [
+        "db/migrations/",
+        "supabase/migrations/"
+      ],
+      "require": "deploy",
+      "noneAllowed": false,
+      "why": "This PR changes a migration: say whether it's applied to staging and in what order it ships."
+    },
+    {
+      "id": "timing-db",
+      "repos": [
+        "timing-db"
+      ],
+      "files": [
+        ""
+      ],
+      "require": "deploy",
+      "noneAllowed": false,
+      "why": "timing-db changes the shared database: say whether it's applied to staging and in what order it ships."
+    },
+    {
+      "id": "env",
+      "files": [
+        ".env.example",
+        "app.json",
+        "app.config."
+      ],
+      "require": "deploy",
+      "noneAllowed": true,
+      "why": "This PR touches env/app config: list new variables or version changes (or None)."
+    },
+    {
+      "id": "ui",
+      "repos": [
+        "timing",
+        "website",
+        "backstage"
+      ],
+      "types": [
+        "feat"
+      ],
+      "suffix": ".tsx",
+      "require": "screenshots",
+      "noneAllowed": true,
+      "why": "A feature touching UI: add before/after screenshots (or None — no visible change)."
+    }
+  ],
+  "noneAllowedSections": [
+    "related",
+    "screenshots",
+    "deploy",
+    "rollback"
+  ]
+}

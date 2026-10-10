@@ -1,0 +1,39 @@
+# Reusable PR lint. Each repo calls this with a ~10-line workflow
+# (see callers/pr-lint.yml). Rules: pr-rules.json at the root of this repo.
+name: PR lint (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      enforce:
+        description: Fail the check when there are problems (false = comment + warning only)
+        type: boolean
+        default: false
+
+jobs:
+  pr-lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Get the rules
+        uses: actions/checkout@v4
+        with:
+          repository: timingai-app/.github
+          ref: main
+          path: .pr-lint
+          persist-credentials: false
+
+      - name: Lint title and description
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { run } = await import(`${process.env.GITHUB_WORKSPACE}/.pr-lint/lint/run.mjs`);
+            await run({
+              github, context, core,
+              rulesPath: `${process.env.GITHUB_WORKSPACE}/.pr-lint/pr-rules.json`,
+              enforce: ${{ inputs.enforce }},
+            });

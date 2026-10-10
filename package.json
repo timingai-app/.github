@@ -1,0 +1,6 @@
+{
+  "name": "timingai-app-github",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test lint/lint.test.mjs" }
+}

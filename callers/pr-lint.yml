@@ -1,0 +1,24 @@
+# Copy of this file lives in every repo at .github/workflows/pr-lint.yml
+# (on main and on the current version branch). The rules themselves live in
+# timingai-app/.github — change them there, not here.
+name: PR lint
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize, ready_for_review, labeled, unlabeled]
+
+# Editing the title and pushing a commit fire two runs at once; both would see
+# "no comment yet" and post two. One run per PR, newest wins.
+concurrency:
+  group: pr-lint-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  pr-lint:
+    uses: timingai-app/.github/.github/workflows/pr-lint.yml@main
+    with:
+      enforce: false
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
