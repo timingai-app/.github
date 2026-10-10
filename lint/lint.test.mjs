@@ -78,6 +78,7 @@ test('file rules: a migration makes Deploy notes required and None not enough', 
   assert.deepEqual(rulesOf({ title: 'chore(db): x', body: '## What changed\nadds a check\n\n## Deploy notes\nNone', files }), ['section:deploy']);
   assert.deepEqual(rulesOf({ title: 'chore(db): x', body: '## What changed\nadds a check\n\n## Deploy notes\nApply after merge; only one DB', files }), []);
   assert.deepEqual(rulesOf({ repo: 'timing-db', title: 'feat: x', body: FEAT_BODY, files: ['supabase/x.sql'] }), ['section:deploy']);
+  assert.deepEqual(rulesOf({ repo: 'timing-db', title: 'ci: x', body: '## What changed\nadds CI\n\n## Deploy notes\nNone', files: ['.github/workflows/pr-lint.yml'] }), []);
 });
 
 test('file rules: a UI feat needs Screenshots, None accepted', () => {
