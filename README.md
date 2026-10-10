@@ -59,7 +59,7 @@ Use these `##` headings (the default template has them all; delete the ones your
 
 | changed | then |
 |---|---|
-| `db/migrations/**`, `supabase/migrations/**`, anything in `timing-db` | `## Deploy notes` required, `None` not accepted — say whether it's applied to staging and the order it ships in |
+| `db/migrations/**`, `supabase/migrations/**`, anything under `supabase/` in `timing-db` | `## Deploy notes` required, `None` not accepted — say whether it's applied to staging and the order it ships in |
 | `.env.example`, `app.json`, `app.config.*` | `## Deploy notes` required (`None` ok) |
 | `*.tsx` in timing / website / backstage, on a `feat` | `## Screenshots` required (`None — no visible change` ok) |
 

@@ -156,11 +156,11 @@
         "timing-db"
       ],
       "files": [
-        ""
+        "supabase/"
       ],
       "require": "deploy",
       "noneAllowed": false,
-      "why": "timing-db changes the shared database: say whether it's applied to staging and in what order it ships."
+      "why": "This PR changes the shared database schema: say whether it's applied to staging and in what order it ships."
     },
     {
       "id": "env",
